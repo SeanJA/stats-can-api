@@ -3,8 +3,9 @@
 namespace SeanJA\StatsCanAPI\Responses\GetAllCubesList;
 
 use DateTimeImmutable;
-use SeanJA\StatsCanAPI\ValueObjects\Collections\Dimensions;
-use SeanJA\StatsCanAPI\ValueObjects\Dimension;
+
+use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Dimension;
+use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Dimensions;
 use SeanJA\StatsCanAPI\ValueObjects\ProductId;
 
 class Cube

@@ -7,6 +7,7 @@ use SeanJA\StatsCanAPI\Client;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
+use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 
 class ClientTest extends TestCase
 {
@@ -71,7 +72,7 @@ class ClientTest extends TestCase
         $result = $client->getCubeMetadata(
             33100302
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(CubeMetadata::class, $result);
     }
 
     public function testGetSeriesInfoFromVector()
