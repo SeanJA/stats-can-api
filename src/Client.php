@@ -2,6 +2,7 @@
 
 namespace SeanJA\StatsCanApi;
 
+use DateInterval;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use Psr\Cache\CacheItemPoolInterface;
@@ -10,7 +11,6 @@ use SeanJA\StatsCanApi\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanApi\Responses\GetAllCubesList\Cube;
 use SeanJA\StatsCanApi\Responses\GetChangedCubeList\ChangedCube;
 use SeanJA\StatsCanApi\Responses\GetChangedCubeList\ChangedCubeList;
-use SeanJA\StatsCanApi\Responses\GetChangedSeriesList\ChangedSeriesList;
 
 class Client
 {
@@ -22,6 +22,19 @@ class Client
     )
     {
         $this->setCache($cacheItemPool);
+    }
+
+    /**
+     * Override the cache ttl
+     * @param string $method
+     * @param array $args
+     * @return DateInterval
+     */
+    protected function getTTL(string $method, array $args): DateInterval
+    {
+        $now = new \DateTimeImmutable();
+        $date = new \DateTimeImmutable('tomorrow 8:30AM EST');
+        return $now->diff($date);
     }
 
     public function getChangedSeriesList(\DateTimeInterface $date): array
