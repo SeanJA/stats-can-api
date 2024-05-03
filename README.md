@@ -1,0 +1,1 @@
+Implementation of the [Web Data Service (WDS)](https://www.statcan.gc.ca/en/developers/wds/user-guide)
