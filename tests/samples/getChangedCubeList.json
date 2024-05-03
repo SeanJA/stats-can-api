@@ -1,0 +1,25 @@
+{
+  "status": "SUCCESS",
+  "object": [
+    {
+      "responseStatusCode": 0,
+      "productId": 33100302,
+      "releaseTime": "2024-04-30T08:30"
+    },
+    {
+      "responseStatusCode": 0,
+      "productId": 33100301,
+      "releaseTime": "2024-04-30T08:30"
+    },
+    {
+      "responseStatusCode": 0,
+      "productId": 33100298,
+      "releaseTime": "2024-04-30T08:30"
+    },
+    {
+      "responseStatusCode": 0,
+      "productId": 33100153,
+      "releaseTime": "2024-04-30T08:30"
+    }
+  ]
+}

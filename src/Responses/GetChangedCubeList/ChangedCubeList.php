@@ -1,6 +1,6 @@
 <?php
 
-namespace SeanJA\StatsCanApi\Responses\GetChangedCubeList;
+namespace SeanJA\StatsCanAPI\Responses\GetChangedCubeList;
 
 use Ramsey\Collection\AbstractCollection;
 

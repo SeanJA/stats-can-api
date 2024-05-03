@@ -1,16 +1,20 @@
 <?php
 
-namespace SeanJA\StatsCanApi;
+namespace SeanJA\StatsCanAPI;
 
 use DateInterval;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use GuzzleHttp\RequestOptions;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
 use SeanJA\Cache\CacheableTrait;
-use SeanJA\StatsCanApi\Responses\GetAllCubesList\AllCubesList;
-use SeanJA\StatsCanApi\Responses\GetAllCubesList\Cube;
-use SeanJA\StatsCanApi\Responses\GetChangedCubeList\ChangedCube;
-use SeanJA\StatsCanApi\Responses\GetChangedCubeList\ChangedCubeList;
+use SeanJA\StatsCanAPI\Exceptions\RequestException;
+use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
+use SeanJA\StatsCanAPI\Responses\GetAllCubesList\Cube;
+use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCube;
+use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 
 class Client
 {
@@ -18,10 +22,11 @@ class Client
 
     public function __construct(
         readonly private ClientInterface             $guzzle,
-        readonly private CacheItemPoolInterface|null $cacheItemPool = null
+        readonly private LoggerInterface|null        $logger = null,
+        CacheItemPoolInterface|null                  $cache = null,
     )
     {
-        $this->setCache($cacheItemPool);
+        $this->setCache($cache);
     }
 
     /**
@@ -37,13 +42,23 @@ class Client
         return $now->diff($date);
     }
 
+    /**
+     * Does not appear to work
+     * @param \DateTimeInterface $date
+     * @return array
+     * @deprecated
+     */
     public function getChangedSeriesList(\DateTimeInterface $date): array
     {
-        $result = $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d'));
-        var_dump($result);
-        die();
+        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d'));
+        return [];
     }
 
+    /**
+     * @param \DateTimeInterface $date
+     * @return ChangedCubeList
+     * @throws \Exception
+     */
     public function getChangedCubeList(\DateTimeInterface $date): ChangedCubeList
     {
         $result = $this->get(
@@ -58,26 +73,30 @@ class Client
 
     public function getCubeMetadata(int $productId): array
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata', [
+        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata', [[
             'productId' => $productId
-        ]);
+        ]]);
     }
 
     public function getSeriesInfoFromCubePidCoord(int $productId, string $coordinate): array
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getSeriesInfoFromCubePidCoord', [
+        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getSeriesInfoFromCubePidCoord', [[
             'productId' => $productId,
             'coordinate' => $coordinate
-        ]);
+        ]]);
     }
 
     public function getSeriesInfoFromVector(int $vectorId): array
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getSeriesInfoFromVector', [
+        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getSeriesInfoFromVector', [[
             'vectorId' => $vectorId
-        ]);
+        ]]);
     }
 
+    /**
+     * @return AllCubesList
+     * @throws \Exception
+     */
     public function getAllCubesList(): AllCubesList
     {
         $result = $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesList');
@@ -95,34 +114,36 @@ class Client
 
     public function getChangedSeriesDataFromCubePidCoord(int $productId, string $coordinate): array
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesDataFromCubePidCoord', [
+        $result = $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesDataFromCubePidCoord', [[
             'productId' => $productId,
             'coordinate' => $coordinate
-        ]);
+        ]]);
+
+        return (array)$result;
     }
 
     public function getChangedSeriesDataFromVector(int $vectorId): array
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesDataFromVector', [
+        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesDataFromVector', [[
             'vectorId' => $vectorId
-        ]);
+        ]]);
     }
 
     public function getDataFromCubePidCoordAndLatestNPeriods(int $productId, string $coordinate, int $latestN): array
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods', [
+        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods', [[
             'productId' => $productId,
             'coordinate' => $coordinate,
             'latestN' => $latestN
-        ]);
+        ]]);
     }
 
     public function getDataFromVectorsAndLatestNPeriods(int $vectorId, int $latestN): array
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorsAndLatestNPeriods', [
+        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorsAndLatestNPeriods', [[
             'vectorId' => $vectorId,
             'latestN' => $latestN
-        ]);
+        ]]);
     }
 
     public function getBulkVectorDataByRange(
@@ -130,7 +151,7 @@ class Client
         \DateTimeInterface $startDataPointReleaseDate,
         \DateTimeInterface $endDataPointReleaseDate): array
     {
-        return $this->post(' https://www150.statcan.gc.ca/t1/wds/rest/getBulkVectorDataByRange', [
+        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getBulkVectorDataByRange', [
             'vectorIds' => $vectorIds,
             'startDataPointReleaseDate' => $startDataPointReleaseDate->format('Y-m-d\TH:i'),
             'endDataPointReleaseDate' => $endDataPointReleaseDate->format('Y-m-d\TH:i')
@@ -168,12 +189,12 @@ class Client
         return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getCodeSets');
     }
 
-    private function post($url, $data): array
+    private function post($url, $data): array|null
     {
         return $this->request('POST', $url, $data);
     }
 
-    private function get($url): array
+    private function get($url): array|null
     {
         return $this->request('GET', $url);
     }
@@ -182,21 +203,26 @@ class Client
         string $method,
         string $url,
         array  $data = []
-    ): array
+    ): array|null
     {
         return $this->remember(function () use ($method, $url, $data) {
-            $options = [];
-            if ($data) {
-                $options[RequestOptions::JSON] = $data;
-            }
+            try {
+                $options = [];
+                if ($data) {
+                    $options[RequestOptions::JSON] = $data;
+                }
 
-            $result = $this->guzzle->request(
-                $method,
-                $url,
-                $options
-            );
-            $result->getBody()->rewind();
-            return json_decode($result->getBody()->getContents(), true);
+                $result = $this->guzzle->request(
+                    $method,
+                    $url,
+                    $options
+                );
+                $result->getBody()->rewind();
+                $contents = $result->getBody()->getContents();
+                return json_decode($contents, true);
+            } catch (GuzzleRequestException|ClientException $e) {
+                throw new RequestException($e->getMessage(), $e->getCode(), $e);
+            }
         });
     }
 }

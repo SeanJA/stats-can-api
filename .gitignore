@@ -3,3 +3,4 @@ composer.phar
 test.php
 /cache/
 .idea
+.phpunit.cache

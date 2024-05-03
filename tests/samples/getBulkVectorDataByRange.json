@@ -1,0 +1,51 @@
+[
+    {
+        "status": "SUCCESS",
+        "object": {
+            "responseStatusCode": 0,
+            "productId": 17100009,
+            "coordinate": "1.0.0.0.0.0.0.0.0.0",
+            "vectorId": 1,
+            "vectorDataPoint": []
+        }
+    },
+    {
+        "status": "SUCCESS",
+        "object": {
+            "responseStatusCode": 0,
+            "productId": 23100216,
+            "coordinate": "1.2.1.0.0.0.0.0.0.0",
+            "vectorId": 74804,
+            "vectorDataPoint": [
+                {
+                    "refPer": "2015-01-01",
+                    "refPer2": "",
+                    "refPerRaw": "2015-01-01",
+                    "refPerRaw2": "",
+                    "value": 268800,
+                    "decimals": 0,
+                    "scalarFactorCode": 0,
+                    "symbolCode": 0,
+                    "statusCode": 0,
+                    "securityLevelCode": 0,
+                    "releaseTime": "2016-04-27T08:30",
+                    "frequencyCode": 6
+                },
+                {
+                    "refPer": "2015-02-01",
+                    "refPer2": "",
+                    "refPerRaw": "2015-02-01",
+                    "refPerRaw2": "",
+                    "value": 247666,
+                    "decimals": 0,
+                    "scalarFactorCode": 0,
+                    "symbolCode": 0,
+                    "statusCode": 0,
+                    "securityLevelCode": 0,
+                    "releaseTime": "2016-04-27T08:30",
+                    "frequencyCode": 6
+                }
+            ]
+        }
+    }
+]

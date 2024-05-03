@@ -4,7 +4,12 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "SeanJA\\StatsCanApi\\": "src/"
+            "SeanJA\\StatsCanAPI\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\SeanJA\\StatsCanAPI\\": "tests/"
         }
     },
     "authors": [
@@ -19,5 +24,8 @@
         "seanja/cacheable-trait": "^1.0",
         "symfony/cache": "^7.0",
         "ramsey/collection": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
     }
 }

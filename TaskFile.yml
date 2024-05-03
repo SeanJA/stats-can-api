@@ -1,0 +1,6 @@
+version: 3
+
+tasks:
+  test:
+    cmds:
+      - cmd: php ./vendor/bin/phpunit --stop-on-error

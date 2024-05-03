@@ -1,6 +1,6 @@
 <?php
 
-namespace SeanJA\StatsCanApi\Responses\GetAllCubesList;
+namespace SeanJA\StatsCanAPI\Responses\GetAllCubesList;
 
 use Ramsey\Collection\AbstractCollection;
 

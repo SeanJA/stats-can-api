@@ -1,0 +1,104 @@
+[
+  {
+    "productId": 10100001,
+    "cansimId": "183-0021",
+    "cubeTitleEn": "Federal public sector employment reconciliation of Treasury Board of Canada Secretariat, Public Service Commission of Canada and Statistics Canada statistical universes, as at December 31",
+    "cubeTitleFr": "Emploi du secteur public f\u00e9d\u00e9ral rapprochement des univers statistiques du Secr\u00e9tariat du Conseil du Tr\u00e9sor du Canada, de la Commission de la fonction publique du Canada et de Statistique Canada, au 31 d\u00e9cembre",
+    "cubeStartDate": "1999-01-01",
+    "cubeEndDate": "2011-01-01",
+    "releaseTime": "2012-08-01T12:30",
+    "archived": "1",
+    "subjectCode": [
+      "10"
+    ],
+    "surveyCode": [
+      "1713"
+    ],
+    "frequencyCode": 12,
+    "corrections": [],
+    "dimensions": [
+      {
+        "dimensionNameEn": "Geography",
+        "dimensionNameFr": "G\u00e9ographie",
+        "dimensionPositionId": 1,
+        "hasUOM": false
+      },
+      {
+        "dimensionNameEn": "Federal public sector employment",
+        "dimensionNameFr": "Groupes d'emplois du secteur public f\u00e9d\u00e9ral",
+        "dimensionPositionId": 2,
+        "hasUOM": true
+      }
+    ]
+  },
+  {
+    "productId": 10100002,
+    "cansimId": "191-0002",
+    "cubeTitleEn": "Central government debt",
+    "cubeTitleFr": "Dette du gouvernement central",
+    "cubeStartDate": "2009-04-01",
+    "cubeEndDate": "2024-02-01",
+    "releaseTime": "2024-04-17T12:30",
+    "archived": "2",
+    "subjectCode": [
+      "10"
+    ],
+    "surveyCode": [
+      "7514"
+    ],
+    "frequencyCode": 6,
+    "corrections": [],
+    "dimensions": [
+      {
+        "dimensionNameEn": "Geography",
+        "dimensionNameFr": "G\u00e9ographie",
+        "dimensionPositionId": 1,
+        "hasUOM": false
+      },
+      {
+        "dimensionNameEn": "Central government debt",
+        "dimensionNameFr": "Dette du gouvernement central",
+        "dimensionPositionId": 2,
+        "hasUOM": true
+      }
+    ]
+  },
+  {
+    "productId": 10100003,
+    "cansimId": "176-0079",
+    "cubeTitleEn": "Government of Canada debt securities: Gross new issues, retirements and net new issues, par value, Bank of Canada",
+    "cubeTitleFr": "Titres d\u2019emprunt du gouvernement du Canada\u00a0: \u00e9missions brutes, remboursements et \u00e9missions nettes, valeur nominale, Banque du Canada",
+    "cubeStartDate": "1975-01-01",
+    "cubeEndDate": "2024-03-01",
+    "releaseTime": "2024-04-24T12:30",
+    "archived": "2",
+    "subjectCode": [
+      "10"
+    ],
+    "surveyCode": [
+      "7502"
+    ],
+    "frequencyCode": 6,
+    "corrections": [],
+    "dimensions": [
+      {
+        "dimensionNameEn": "Geography",
+        "dimensionNameFr": "G\u00e9ographie",
+        "dimensionPositionId": 1,
+        "hasUOM": false
+      },
+      {
+        "dimensionNameEn": "Type of issues",
+        "dimensionNameFr": "Genre d'\u00e9missions",
+        "dimensionPositionId": 2,
+        "hasUOM": false
+      },
+      {
+        "dimensionNameEn": "Issuers",
+        "dimensionNameFr": "\u00c9metteurs",
+        "dimensionPositionId": 3,
+        "hasUOM": true
+      }
+    ]
+  }
+]

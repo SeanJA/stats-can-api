@@ -1,8 +1,8 @@
 <?php
 
-namespace SeanJA\StatsCanApi\Responses\GetChangedCubeList;
+namespace SeanJA\StatsCanAPI\Responses\GetChangedCubeList;
 
-use SeanJA\StatsCanApi\ValueObjects\ProductId;
+use SeanJA\StatsCanAPI\ValueObjects\ProductId;
 
 class ChangedCube
 {

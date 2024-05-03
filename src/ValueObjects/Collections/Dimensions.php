@@ -1,9 +1,9 @@
 <?php
 
-namespace SeanJA\StatsCanApi\ValueObjects\Collections;
+namespace SeanJA\StatsCanAPI\ValueObjects\Collections;
 
 use Ramsey\Collection\AbstractCollection;
-use SeanJA\StatsCanApi\ValueObjects\Dimension;
+use SeanJA\StatsCanAPI\ValueObjects\Dimension;
 
 class Dimensions extends AbstractCollection
 {

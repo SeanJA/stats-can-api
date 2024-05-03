@@ -1,6 +1,6 @@
 <?php
 
-namespace SeanJA\StatsCanApi\ValueObjects;
+namespace SeanJA\StatsCanAPI\ValueObjects;
 
 /**
  * Representative / default view product ID for a table:

@@ -1,11 +1,11 @@
 <?php
 
-namespace SeanJA\StatsCanApi\Responses\GetAllCubesList;
+namespace SeanJA\StatsCanAPI\Responses\GetAllCubesList;
 
 use DateTimeImmutable;
-use SeanJA\StatsCanApi\ValueObjects\Collections\Dimensions;
-use SeanJA\StatsCanApi\ValueObjects\Dimension;
-use SeanJA\StatsCanApi\ValueObjects\ProductId;
+use SeanJA\StatsCanAPI\ValueObjects\Collections\Dimensions;
+use SeanJA\StatsCanAPI\ValueObjects\Dimension;
+use SeanJA\StatsCanAPI\ValueObjects\ProductId;
 
 class Cube
 {

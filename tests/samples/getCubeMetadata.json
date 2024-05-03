@@ -1,0 +1,86 @@
+[
+    {
+        "status": "SUCCESS",
+        "object": {
+            "responseStatusCode": 0,
+            "productId": "33100302",
+            "cansimId": null,
+            "cubeTitleEn": "Training or development activities arranged or provided by the business to employees, by industry and enterprise size",
+            "cubeTitleFr": "Activit\u00e9s de formations ou de conceptions organis\u00e9es ou fournies par l'entreprise aux employ\u00e9s, selon l'industrie et la taille de l\u2019entreprise",
+            "cubeStartDate": "2019-01-01",
+            "cubeEndDate": "2022-01-01",
+            "frequencyCode": 18,
+            "nbSeriesCube": 9700,
+            "nbDatapointsCube": 15780,
+            "releaseTime": "2024-04-30T08:30",
+            "archiveStatusCode": "2",
+            "archiveStatusEn": "CURRENT - a cube available to the public and that is current",
+            "archiveStatusFr": "ACTIF - un cube qui est disponible au public et qui est toujours mise a jour",
+            "subjectCode": [
+                "33",
+                "1405"
+            ],
+            "surveyCode": [
+                "5171"
+            ],
+            "dimension": [
+                {
+                    "dimensionPositionId": 1,
+                    "dimensionNameEn": "Geography",
+                    "dimensionNameFr": "G\u00e9ographie",
+                    "hasUom": false,
+                    "member": [
+                        {
+                            "memberId": 1,
+                            "parentMemberId": null,
+                            "memberNameEn": "Canada",
+                            "memberNameFr": "Canada",
+                            "classificationCode": "11124",
+                            "classificationTypeCode": "1",
+                            "geoLevel": 0,
+                            "vintage": 2021,
+                            "terminated": 0,
+                            "memberUomCode": null
+                        },
+                        {
+                            "memberId": 2,
+                            "parentMemberId": 1,
+                            "memberNameEn": "Atlantic Region",
+                            "memberNameFr": "R\u00e9gion de l'Atlantique",
+                            "classificationCode": "1",
+                            "classificationTypeCode": "1",
+                            "geoLevel": 1,
+                            "vintage": 2021,
+                            "terminated": 0,
+                            "memberUomCode": null
+                        }
+                    ]
+                }
+            ],
+            "footnote": [
+                {
+                    "footnoteId": 4,
+                    "footnotesEn": "Due to rounding, components may not add to total.",
+                    "footnotesFr": "Les chiffres ayant \u00e9t\u00e9 arrondis, les totaux peuvent ne pas correspondre.",
+                    "link": {
+                        "footnoteId": 4,
+                        "dimensionPositionId": 0,
+                        "memberId": 0
+                    }
+                },
+                {
+                    "footnoteId": 2,
+                    "footnotesEn": "Atlantic includes Newfoundland and Labrador, Prince Edward Island, Nova Scotia and New Brunswick.",
+                    "footnotesFr": "L'Atlantique comprend Terre-Neuve-et-Labrador, l'\u00cele-du-Prince-\u00c9douard, la Nouvelle-\u00c9cosse et le Nouveau-Brunswick.",
+                    "link": {
+                        "footnoteId": 2,
+                        "dimensionPositionId": 1,
+                        "memberId": 2
+                    }
+                }
+            ],
+            "correctionFootnote": [],
+            "correction": []
+        }
+    }
+]
