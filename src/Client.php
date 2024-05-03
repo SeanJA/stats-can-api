@@ -11,10 +11,15 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use SeanJA\Cache\CacheableTrait;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
+use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
+use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
+use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
+use SeanJA\StatsCanAPI\Requests\RequestInterface;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\Cube;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCube;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
+use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 
 class Client
 {
@@ -50,7 +55,7 @@ class Client
      */
     public function getChangedSeriesList(\DateTimeInterface $date): array
     {
-        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d'));
+//        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d'));
         return [];
     }
 
@@ -61,21 +66,16 @@ class Client
      */
     public function getChangedCubeList(\DateTimeInterface $date): ChangedCubeList
     {
-        $result = $this->get(
-            'https://www150.statcan.gc.ca/t1/wds/rest/getChangedCubeList/' . $date->format('Y-m-d')
-        );
-        return new ChangedCubeList(
-            array_map(function ($data) {
-                return ChangedCube::deserialize($data);
-            }, $result['object'])
+        return ChangedCubeList::fromResponse(
+            $this->send(new GetChangedCubeList($date))
         );
     }
 
-    public function getCubeMetadata(int $productId): array
+    public function getCubeMetadata(int $productId): CubeMetadata
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata', [[
-            'productId' => $productId
-        ]]);
+        return CubeMetadata::fromResponse(
+            $this->send(new GetCubeMetadata($productId))
+        );
     }
 
     public function getSeriesInfoFromCubePidCoord(int $productId, string $coordinate): array
@@ -99,11 +99,8 @@ class Client
      */
     public function getAllCubesList(): AllCubesList
     {
-        $result = $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesList');
-        return new AllCubesList(
-            array_map(function ($data) {
-                return Cube::deserialize($data);
-            }, $result)
+        return AllCubesList::fromResponse(
+            $this->send(new GetAllCubesList())
         );
     }
 
@@ -197,6 +194,20 @@ class Client
     private function get($url): array|null
     {
         return $this->request('GET', $url);
+    }
+
+    public function send(RequestInterface $request)
+    {
+        return $this->remember(function () use ($request) {
+            try {
+                $result = $this->guzzle->send($request());
+                $result->getBody()->rewind();
+                $contents = $result->getBody()->getContents();
+                return json_decode($contents, true);
+            } catch (GuzzleRequestException|ClientException $e) {
+                throw new RequestException($e->getMessage(), $e->getCode(), $e);
+            }
+        });
     }
 
     private function request(
