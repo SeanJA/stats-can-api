@@ -14,6 +14,7 @@ use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesData
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Responses\GetDataFromVectorByReferencePeriodRange\DataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
@@ -107,7 +108,7 @@ class ClientTest extends TestCase
             new \DateTimeImmutable('2016-01-01'),
             new \DateTimeImmutable('2017-01-01'),
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(DataFromVectorByReferencePeriodRange::class, $result);
     }
 
     public function testGetCodeSets()

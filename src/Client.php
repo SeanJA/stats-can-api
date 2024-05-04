@@ -22,6 +22,7 @@ use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
 use SeanJA\StatsCanAPI\Requests\GetDataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Requests\GetDataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Requests\GetDataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
@@ -34,6 +35,7 @@ use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesData
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Responses\GetDataFromVectorByReferencePeriodRange\DataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
@@ -59,7 +61,7 @@ class Client
      */
     protected function getTTL(
         string $method,
-        array $args
+        array  $args
     ): DateInterval
     {
         $now = new \DateTimeImmutable();
@@ -104,7 +106,7 @@ class Client
     }
 
     public function getSeriesInfoFromCubePidCoord(
-        int $productId,
+        int    $productId,
         string $coordinate
     ): SeriesInfoFromCubePidCoord
     {
@@ -148,7 +150,7 @@ class Client
     }
 
     public function getChangedSeriesDataFromCubePidCoord(
-        int $productId,
+        int    $productId,
         string $coordinate
     ): SeriesDataFromCubePidCoord
     {
@@ -206,7 +208,7 @@ class Client
     }
 
     public function getBulkVectorDataByRange(
-        array              $vectorIds,
+        array             $vectorIds,
         DateTimeInterface $startDataPointReleaseDate,
         DateTimeInterface $endDataPointReleaseDate): BulkVectorDataByRange
     {
@@ -220,18 +222,19 @@ class Client
     }
 
     public function getDataFromVectorByReferencePeriodRange(
-        array              $vectorIds,
-        \DateTimeImmutable $startRefPeriod,
+        array             $vectorIds,
+        DateTimeInterface $startRefPeriod,
         DateTimeInterface $endDataPointReleaseDate
-    ): array
+    ): DataFromVectorByReferencePeriodRange
     {
-        $vectorIds = array_map(function ($id) {
-            return '"' . $id . '"';
-        }, $vectorIds);
-
-        $vectorIds = implode(',', $vectorIds);
-        return $this->get(
-            'https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=' . $vectorIds . '&startRefPeriod=' . $startRefPeriod->format('Y-m-d') . '&endReferencePeriod=' . $endDataPointReleaseDate->format('Y-m-d')
+        return DataFromVectorByReferencePeriodRange::fromResponse(
+            $this->send(
+                new GetDataFromVectorByReferencePeriodRange(
+                    $vectorIds,
+                    $startRefPeriod,
+                    $endDataPointReleaseDate
+                )
+            )
         );
     }
 
