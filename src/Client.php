@@ -19,6 +19,7 @@ use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
+use SeanJA\StatsCanAPI\Requests\GetDataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
 use SeanJA\StatsCanAPI\Requests\StatsCanAPIRequestInterface;
@@ -28,6 +29,7 @@ use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
+use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 
@@ -158,13 +160,20 @@ class Client
         );
     }
 
-    public function getDataFromCubePidCoordAndLatestNPeriods(int $productId, string $coordinate, int $latestN): array
+    public function getDataFromCubePidCoordAndLatestNPeriods(
+        int    $productId,
+        string $coordinate,
+        int    $latestN): DataFromCubePidCoordAndLatestNPeriods
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods', [[
-            'productId' => $productId,
-            'coordinate' => $coordinate,
-            'latestN' => $latestN
-        ]]);
+        return DataFromCubePidCoordAndLatestNPeriods::fromResponse(
+            $this->send(
+                new GetDataFromCubePidCoordAndLatestNPeriods(
+                    $productId,
+                    $coordinate,
+                    $latestN
+                )
+            )
+        );
     }
 
     public function getDataFromVectorsAndLatestNPeriods(int $vectorId, int $latestN): array

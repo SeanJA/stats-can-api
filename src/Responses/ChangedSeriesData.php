@@ -13,7 +13,7 @@ abstract class ChangedSeriesData implements Deserializable, ResponseInterface
         public readonly ProductId $productId,
         public readonly string $coordinate,
         public readonly int $vectorId,
-        public VectorDataPoints $vectorDataPoint
+        public VectorDataPoints $vectorDataPoints
     ){
 
     }
@@ -21,13 +21,14 @@ abstract class ChangedSeriesData implements Deserializable, ResponseInterface
     #[\Override] public static function deserialize(array $data): static
     {
         $data['productId'] = new ProductId($data['productId']);
-        $data['vectorDataPoint'] = VectorDataPoints::deserialize($data['vectorDataPoint']);
-
+        $data['vectorDataPoints'] = VectorDataPoints::deserialize($data['vectorDataPoints']);
         return new static(...$data);
     }
 
     #[\Override] public static function fromResponse(array $response): static
     {
+        $response[0]['object']['vectorDataPoints'] = $response[0]['object']['vectorDataPoint'];
+        unset($response[0]['object']['vectorDataPoint']);
         return static::deserialize($response[0]['object']);
     }
 }

@@ -12,6 +12,7 @@ use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
+use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 
@@ -152,7 +153,7 @@ class ClientTest extends TestCase
             "1.12.0.0.0.0.0.0.0.0",
             3
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(DataFromCubePidCoordAndLatestNPeriods::class, $result);
     }
 
     public function testGetBulkVectorDataByRange()
