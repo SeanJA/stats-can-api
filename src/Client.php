@@ -20,6 +20,7 @@ use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
 use SeanJA\StatsCanAPI\Requests\GetDataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Requests\GetDataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
 use SeanJA\StatsCanAPI\Requests\StatsCanAPIRequestInterface;
@@ -30,6 +31,7 @@ use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSer
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 
@@ -176,12 +178,18 @@ class Client
         );
     }
 
-    public function getDataFromVectorsAndLatestNPeriods(int $vectorId, int $latestN): array
+    public function getDataFromVectorsAndLatestNPeriods(
+        int $vectorId,
+        int $latestN): DataFromVectorsAndLatestNPeriods
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorsAndLatestNPeriods', [[
-            'vectorId' => $vectorId,
-            'latestN' => $latestN
-        ]]);
+        return DataFromVectorsAndLatestNPeriods::fromResponse(
+            $this->send(
+                new GetDataFromVectorsAndLatestNPeriods(
+                    $vectorId,
+                    $latestN
+                )
+            )
+        );
     }
 
     public function getBulkVectorDataByRange(
