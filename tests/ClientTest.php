@@ -9,6 +9,7 @@ use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\SeriesInfoFromVector\SeriesInfoFromVector;
 
 class ClientTest extends TestCase
 {
@@ -85,7 +86,7 @@ class ClientTest extends TestCase
         $result = $client->getSeriesInfoFromVector(
             32164132
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(SeriesInfoFromVector::class, $result);
     }
 
     public function testGetDataFromVectorByReferencePeriodRange()
@@ -157,7 +158,7 @@ class ClientTest extends TestCase
         );
         $client = new Client($guzzle);
         $result = $client->getBulkVectorDataByRange(
-            ["74804","1"],
+            ["74804", "1"],
             new \DateTimeImmutable('2015-12-01T08:30'),
             new \DateTimeImmutable("2018-03-31T19:00")
         );
@@ -218,7 +219,7 @@ class ClientTest extends TestCase
 //        $guzzle = $this->mockGuzzleClient(
 //            file_get_contents(__DIR__ . '/samples/getChangedSeriesList.json')
 //        );
-        $guzzle = new \GuzzleHttp\Client([RequestOptions::VERIFY=>false]);
+        $guzzle = new \GuzzleHttp\Client([RequestOptions::VERIFY => false]);
         $client = new Client($guzzle);
         $result = $client->getChangedSeriesList(
             new \DateTimeImmutable('yesterday')

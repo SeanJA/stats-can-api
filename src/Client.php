@@ -15,13 +15,13 @@ use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
 use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
 use SeanJA\StatsCanAPI\Requests\RequestInterface;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
-use SeanJA\StatsCanAPI\Responses\GetAllCubesList\Cube;
-use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCube;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\SeriesInfoFromVector\SeriesInfoFromVector;
 
 class Client
 {
@@ -92,11 +92,15 @@ class Client
         );
     }
 
-    public function getSeriesInfoFromVector(int $vectorId): array
+    public function getSeriesInfoFromVector(int $vectorId): SeriesInfoFromVector
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getSeriesInfoFromVector', [[
-            'vectorId' => $vectorId
-        ]]);
+        return SeriesInfoFromVector::fromResponse(
+            $this->send(
+                new GetSeriesInfoFromVector(
+                    $vectorId
+                )
+            )
+        );
     }
 
     /**
