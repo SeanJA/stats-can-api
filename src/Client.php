@@ -11,6 +11,7 @@ use GuzzleHttp\RequestOptions;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use SeanJA\Cache\CacheableTrait;
+use SeanJA\StatsCanAPI\Exceptions\NotImplementedException;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesListLite;
@@ -60,12 +61,16 @@ class Client
      * Does not appear to work
      * @param \DateTimeInterface $date
      * @return array
+     * @throws NotImplementedException
      * @deprecated
      */
     public function getChangedSeriesList(\DateTimeInterface $date): array
     {
-//        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d'));
-        return [];
+        throw new NotImplementedException(
+            'Get Changed Series List does not appear to return anything'
+        );
+        // todo: if this ever returns data, implement it I guess
+        //  return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d'));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Tests\SeanJA\StatsCanAPI;
 
 use GuzzleHttp\RequestOptions;
 use SeanJA\StatsCanAPI\Client;
+use SeanJA\StatsCanAPI\Exceptions\NotImplementedException;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesListLite\AllCubesListLite;
@@ -218,15 +219,13 @@ class ClientTest extends TestCase
 
     public function testGetChangedSeriesList()
     {
-//        $guzzle = $this->mockGuzzleClient(
-//            file_get_contents(__DIR__ . '/samples/getChangedSeriesList.json')
-//        );
-        $guzzle = new \GuzzleHttp\Client([RequestOptions::VERIFY => false]);
+        $guzzle = $this->mockGuzzleClient(
+            file_get_contents(__DIR__ . '/samples/getChangedSeriesList.json')
+        );
         $client = new Client($guzzle);
-        $result = $client->getChangedSeriesList(
+        $this->expectException(NotImplementedException::class);
+        $client->getChangedSeriesList(
             new \DateTimeImmutable('yesterday')
         );
-        $this->assertTrue(is_array($result));
-        file_put_contents(__DIR__ . '/samples/getChangedSeriesList.json', json_encode($result, JSON_PRETTY_PRINT));
     }
 }
