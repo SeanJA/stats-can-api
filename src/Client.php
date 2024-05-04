@@ -250,11 +250,6 @@ class Client
         return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getCodeSets');
     }
 
-    private function post($url, $data): array|null
-    {
-        return $this->request('POST', $url, $data);
-    }
-
     private function get($url): array|null
     {
         return $this->request('GET', $url);
