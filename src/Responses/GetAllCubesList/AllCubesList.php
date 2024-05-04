@@ -14,12 +14,10 @@ class AllCubesList extends AbstractCollection implements ResponseInterface
 
     #[\Override] public static function fromResponse(array $response): static
     {
-        return new self(
+        return new static(
             array_map(function ($data) {
                 return Cube::deserialize($data);
             }, $response)
         );
     }
-
-
 }

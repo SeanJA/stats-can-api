@@ -11,7 +11,7 @@ class Dimensions extends AbstractCollection implements Deserializable
     {
         return new static(array_map(function ($data) {
             return Dimension::deserialize($data);
-        }, $data['dimensions']));
+        }, $data));
     }
 
     #[\Override] public function getType(): string

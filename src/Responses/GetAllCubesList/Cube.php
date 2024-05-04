@@ -19,12 +19,12 @@ class Cube
         public readonly DateTimeImmutable $cubeStartDate,
         public readonly DateTimeImmutable $cubeEndDate,
         public readonly DateTimeImmutable $releaseTime,
-        public readonly bool               $archived,
-        public readonly array               $subjectCode,
-        public readonly array               $surveyCode,
+        public readonly bool              $archived,
+        public readonly array             $subjectCode,
+        public readonly array             $surveyCode,
         public readonly int               $frequencyCode,
         public readonly array             $corrections,
-        public readonly Dimensions        $dimensions
+        public readonly Dimensions|null   $dimensions
     )
     {
     }
@@ -49,7 +49,7 @@ class Cube
             (array)$data['surveyCode'],
             $data['frequencyCode'],
             $data['corrections'],
-            Dimensions::deserialize($data)
+            isset($data['dimensions'])? Dimensions::deserialize($data['dimensions']) : null
         );
     }
 }

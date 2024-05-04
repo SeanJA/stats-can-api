@@ -13,6 +13,7 @@ use Psr\Log\LoggerInterface;
 use SeanJA\Cache\CacheableTrait;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
+use SeanJA\StatsCanAPI\Requests\GetAllCubesListLite;
 use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromVector;
@@ -21,6 +22,7 @@ use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
 use SeanJA\StatsCanAPI\Requests\StatsCanAPIRequestInterface;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
+use SeanJA\StatsCanAPI\Responses\GetAllCubesListLite\AllCubesListLite;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
@@ -119,9 +121,13 @@ class Client
         );
     }
 
-    public function getAllCubesListLite(): array
+    public function getAllCubesListLite(): AllCubesListLite
     {
-        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesListLite');
+        return AllCubesListLite::fromResponse(
+            $this->send(
+                new GetAllCubesListLite()
+            )
+        );
     }
 
     public function getChangedSeriesDataFromCubePidCoord(int $productId, string $coordinate): ChangedSeriesDataFromCubePidCoord

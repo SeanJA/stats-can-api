@@ -6,6 +6,7 @@ use GuzzleHttp\RequestOptions;
 use SeanJA\StatsCanAPI\Client;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
+use SeanJA\StatsCanAPI\Responses\GetAllCubesListLite\AllCubesListLite;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
@@ -212,7 +213,7 @@ class ClientTest extends TestCase
         );
         $client = new Client($guzzle);
         $result = $client->getAllCubesListLite();
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(AllCubesListLite::class, $result);
     }
 
     public function testGetChangedSeriesList()
