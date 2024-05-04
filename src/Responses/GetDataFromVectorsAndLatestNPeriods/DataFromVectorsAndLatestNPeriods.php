@@ -2,6 +2,6 @@
 
 namespace SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods;
 
-use SeanJA\StatsCanAPI\Responses\ChangedSeriesData;
+use SeanJA\StatsCanAPI\Responses\SeriesData;
 
-class DataFromVectorsAndLatestNPeriods extends ChangedSeriesData{}
+class DataFromVectorsAndLatestNPeriods extends SeriesData{}

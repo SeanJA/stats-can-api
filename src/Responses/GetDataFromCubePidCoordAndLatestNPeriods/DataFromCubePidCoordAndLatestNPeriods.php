@@ -2,6 +2,6 @@
 
 namespace SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods;
 
-use SeanJA\StatsCanAPI\Responses\ChangedSeriesData;
+use SeanJA\StatsCanAPI\Responses\SeriesData;
 
-class DataFromCubePidCoordAndLatestNPeriods extends ChangedSeriesData{}
+class DataFromCubePidCoordAndLatestNPeriods extends SeriesData{}

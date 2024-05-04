@@ -6,7 +6,7 @@ use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 use SeanJA\StatsCanAPI\ValueObjects\ProductId;
 use SeanJA\StatsCanAPI\ValueObjects\VectorDataPoints\VectorDataPoints;
 
-abstract class ChangedSeriesData implements Deserializable, ResponseInterface
+abstract class SeriesData implements Deserializable, ResponseInterface
 {
     public function __construct(
         public readonly int $responseStatusCode,

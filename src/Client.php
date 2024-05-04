@@ -3,6 +3,7 @@
 namespace SeanJA\StatsCanAPI;
 
 use DateInterval;
+use DateTimeInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -15,6 +16,7 @@ use SeanJA\StatsCanAPI\Exceptions\NotImplementedException;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesListLite;
+use SeanJA\StatsCanAPI\Requests\GetBulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromVector;
@@ -26,9 +28,10 @@ use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
 use SeanJA\StatsCanAPI\Requests\StatsCanAPIRequestInterface;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesListLite\AllCubesListLite;
+use SeanJA\StatsCanAPI\Responses\GetBulkVectorDataByRange\BulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
-use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
-use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesDataFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
@@ -54,7 +57,10 @@ class Client
      * @param array $args
      * @return DateInterval
      */
-    protected function getTTL(string $method, array $args): DateInterval
+    protected function getTTL(
+        string $method,
+        array $args
+    ): DateInterval
     {
         $now = new \DateTimeImmutable();
         $date = new \DateTimeImmutable('tomorrow 8:30AM EST');
@@ -63,40 +69,44 @@ class Client
 
     /**
      * Does not appear to work
-     * @param \DateTimeInterface $date
+     * @param DateTimeInterface $date
      * @return array
      * @throws NotImplementedException
      * @deprecated
      */
-    public function getChangedSeriesList(\DateTimeInterface $date): array
+    public function getChangedSeriesList(
+        DateTimeInterface $date
+    ): array
     {
         throw new NotImplementedException(
             'Get Changed Series List does not appear to return anything'
         );
         // todo: if this ever returns data, implement it I guess
-        //  return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d'));
+        //  https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesList/' . $date->format('Y-m-d');
     }
 
-    /**
-     * @param \DateTimeInterface $date
-     * @return ChangedCubeList
-     * @throws \Exception
-     */
-    public function getChangedCubeList(\DateTimeInterface $date): ChangedCubeList
+    public function getChangedCubeList(
+        DateTimeInterface $date
+    ): ChangedCubeList
     {
         return ChangedCubeList::fromResponse(
             $this->send(new GetChangedCubeList($date))
         );
     }
 
-    public function getCubeMetadata(int $productId): CubeMetadata
+    public function getCubeMetadata(
+        int $productId
+    ): CubeMetadata
     {
         return CubeMetadata::fromResponse(
             $this->send(new GetCubeMetadata($productId))
         );
     }
 
-    public function getSeriesInfoFromCubePidCoord(int $productId, string $coordinate): SeriesInfoFromCubePidCoord
+    public function getSeriesInfoFromCubePidCoord(
+        int $productId,
+        string $coordinate
+    ): SeriesInfoFromCubePidCoord
     {
         return SeriesInfoFromCubePidCoord::fromResponse(
             $this->send(
@@ -108,7 +118,9 @@ class Client
         );
     }
 
-    public function getSeriesInfoFromVector(int $vectorId): SeriesInfoFromVector
+    public function getSeriesInfoFromVector(
+        int $vectorId
+    ): SeriesInfoFromVector
     {
         return SeriesInfoFromVector::fromResponse(
             $this->send(
@@ -119,10 +131,6 @@ class Client
         );
     }
 
-    /**
-     * @return AllCubesList
-     * @throws \Exception
-     */
     public function getAllCubesList(): AllCubesList
     {
         return AllCubesList::fromResponse(
@@ -139,9 +147,12 @@ class Client
         );
     }
 
-    public function getChangedSeriesDataFromCubePidCoord(int $productId, string $coordinate): ChangedSeriesDataFromCubePidCoord
+    public function getChangedSeriesDataFromCubePidCoord(
+        int $productId,
+        string $coordinate
+    ): SeriesDataFromCubePidCoord
     {
-        return ChangedSeriesDataFromCubePidCoord::fromResponse(
+        return SeriesDataFromCubePidCoord::fromResponse(
             $this->send(
                 new GetChangedSeriesDataFromCubePidCoord(
                     $productId,
@@ -151,9 +162,11 @@ class Client
         );
     }
 
-    public function getChangedSeriesDataFromVector(int $vectorId): ChangedSeriesDataFromVector
+    public function getChangedSeriesDataFromVector(
+        int $vectorId
+    ): SeriesDataFromVector
     {
-        return ChangedSeriesDataFromVector::fromResponse(
+        return SeriesDataFromVector::fromResponse(
             $this->send(
                 new GetChangedSeriesDataFromVector(
                     $vectorId
@@ -194,20 +207,22 @@ class Client
 
     public function getBulkVectorDataByRange(
         array              $vectorIds,
-        \DateTimeInterface $startDataPointReleaseDate,
-        \DateTimeInterface $endDataPointReleaseDate): array
+        DateTimeInterface $startDataPointReleaseDate,
+        DateTimeInterface $endDataPointReleaseDate): BulkVectorDataByRange
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getBulkVectorDataByRange', [
-            'vectorIds' => $vectorIds,
-            'startDataPointReleaseDate' => $startDataPointReleaseDate->format('Y-m-d\TH:i'),
-            'endDataPointReleaseDate' => $endDataPointReleaseDate->format('Y-m-d\TH:i')
-        ]);
+        return BulkVectorDataByRange::fromResponse(
+            $this->send(new GetBulkVectorDataByRange(
+                $vectorIds,
+                $startDataPointReleaseDate,
+                $endDataPointReleaseDate
+            ))
+        );
     }
 
     public function getDataFromVectorByReferencePeriodRange(
         array              $vectorIds,
         \DateTimeImmutable $startRefPeriod,
-        \DateTimeInterface $endDataPointReleaseDate
+        DateTimeInterface $endDataPointReleaseDate
     ): array
     {
         $vectorIds = array_map(function ($id) {

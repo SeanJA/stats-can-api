@@ -8,9 +8,10 @@ use SeanJA\StatsCanAPI\Exceptions\NotImplementedException;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesListLite\AllCubesListLite;
+use SeanJA\StatsCanAPI\Responses\GetBulkVectorDataByRange\BulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
-use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
-use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesDataFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
@@ -168,7 +169,7 @@ class ClientTest extends TestCase
             new \DateTimeImmutable('2015-12-01T08:30'),
             new \DateTimeImmutable("2018-03-31T19:00")
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(BulkVectorDataByRange::class, $result);
     }
 
     public function testGetFullTableDownloadSDMX()
@@ -193,7 +194,7 @@ class ClientTest extends TestCase
             35100003,
             "1.12.0.0.0.0.0.0.0.0"
         );
-        $this->assertInstanceOf(ChangedSeriesDataFromCubePidCoord::class, $result);
+        $this->assertInstanceOf(SeriesDataFromCubePidCoord::class, $result);
     }
 
     public function testGetChangedSeriesDataFromVector()
@@ -205,7 +206,7 @@ class ClientTest extends TestCase
         $result = $client->getChangedSeriesDataFromVector(
             80691319
         );
-        $this->assertInstanceOf(ChangedSeriesDataFromVector::class, $result);
+        $this->assertInstanceOf(SeriesDataFromVector::class, $result);
     }
 
 
