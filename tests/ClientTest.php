@@ -8,6 +8,7 @@ use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
+use SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 
 class ClientTest extends TestCase
 {
@@ -122,7 +123,7 @@ class ClientTest extends TestCase
             35100003,
             "1.12.0.0.0.0.0.0.0.0"
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(SeriesInfoFromCubePidCoord::class, $result);
     }
 
     public function testGetChangedCubeList()

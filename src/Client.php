@@ -14,21 +14,23 @@ use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
 use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
+use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\RequestInterface;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\Cube;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCube;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
+use SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 
 class Client
 {
     use CacheableTrait;
 
     public function __construct(
-        readonly private ClientInterface             $guzzle,
-        readonly private LoggerInterface|null        $logger = null,
-        CacheItemPoolInterface|null                  $cache = null,
+        readonly private ClientInterface      $guzzle,
+        readonly private LoggerInterface|null $logger = null,
+        CacheItemPoolInterface|null           $cache = null,
     )
     {
         $this->setCache($cache);
@@ -78,12 +80,16 @@ class Client
         );
     }
 
-    public function getSeriesInfoFromCubePidCoord(int $productId, string $coordinate): array
+    public function getSeriesInfoFromCubePidCoord(int $productId, string $coordinate): SeriesInfoFromCubePidCoord
     {
-        return $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getSeriesInfoFromCubePidCoord', [[
-            'productId' => $productId,
-            'coordinate' => $coordinate
-        ]]);
+        return SeriesInfoFromCubePidCoord::fromResponse(
+            $this->send(
+                new GetSeriesInfoFromCubePidCoord(
+                    $productId,
+                    $coordinate
+                )
+            )
+        );
     }
 
     public function getSeriesInfoFromVector(int $vectorId): array
@@ -196,7 +202,7 @@ class Client
         return $this->request('GET', $url);
     }
 
-    public function send(RequestInterface $request)
+    public function send(RequestInterface $request): array
     {
         return $this->remember(function () use ($request) {
             try {
