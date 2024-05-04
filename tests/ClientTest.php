@@ -8,6 +8,7 @@ use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\ChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
@@ -200,7 +201,7 @@ class ClientTest extends TestCase
         $result = $client->getChangedSeriesDataFromVector(
             80691319
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(ChangedSeriesDataFromVector::class, $result);
     }
 
 
