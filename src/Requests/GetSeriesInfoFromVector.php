@@ -4,7 +4,7 @@ namespace SeanJA\StatsCanAPI\Requests;
 
 use GuzzleHttp\Psr7\Request;
 
-class GetSeriesInfoFromVector implements RequestInterface
+class GetSeriesInfoFromVector implements StatsCanAPIRequestInterface
 {
     public function __construct(
         private readonly int $vectorId

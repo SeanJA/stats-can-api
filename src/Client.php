@@ -5,6 +5,7 @@ namespace SeanJA\StatsCanAPI;
 use DateInterval;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use GuzzleHttp\RequestOptions;
 use Psr\Cache\CacheItemPoolInterface;
@@ -13,15 +14,17 @@ use SeanJA\Cache\CacheableTrait;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
 use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
+use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
-use SeanJA\StatsCanAPI\Requests\RequestInterface;
+use SeanJA\StatsCanAPI\Requests\StatsCanAPIRequestInterface;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
-use SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
-use SeanJA\StatsCanAPI\Responses\SeriesInfoFromVector\SeriesInfoFromVector;
+use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 
 class Client
 {
@@ -119,14 +122,16 @@ class Client
         return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getAllCubesListLite');
     }
 
-    public function getChangedSeriesDataFromCubePidCoord(int $productId, string $coordinate): array
+    public function getChangedSeriesDataFromCubePidCoord(int $productId, string $coordinate): ChangedSeriesDataFromCubePidCoord
     {
-        $result = $this->post('https://www150.statcan.gc.ca/t1/wds/rest/getChangedSeriesDataFromCubePidCoord', [[
-            'productId' => $productId,
-            'coordinate' => $coordinate
-        ]]);
-
-        return (array)$result;
+        return ChangedSeriesDataFromCubePidCoord::fromResponse(
+            $this->send(
+                new GetChangedSeriesDataFromCubePidCoord(
+                    $productId,
+                    $coordinate
+                )
+            )
+        );
     }
 
     public function getChangedSeriesDataFromVector(int $vectorId): array
@@ -206,7 +211,7 @@ class Client
         return $this->request('GET', $url);
     }
 
-    public function send(RequestInterface $request): array
+    public function send(StatsCanAPIRequestInterface $request): array
     {
         return $this->remember(function () use ($request) {
             try {
@@ -241,7 +246,7 @@ class Client
                 $result->getBody()->rewind();
                 $contents = $result->getBody()->getContents();
                 return json_decode($contents, true);
-            } catch (GuzzleRequestException|ClientException $e) {
+            } catch (GuzzleRequestException|ClientException|GuzzleException $e) {
                 throw new RequestException($e->getMessage(), $e->getCode(), $e);
             }
         });

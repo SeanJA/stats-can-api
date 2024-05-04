@@ -12,7 +12,7 @@ class AllCubesList extends AbstractCollection implements ResponseInterface
         return Cube::class;
     }
 
-    #[\Override] public static function fromResponse(array $response): self
+    #[\Override] public static function fromResponse(array $response): static
     {
         return new self(
             array_map(function ($data) {

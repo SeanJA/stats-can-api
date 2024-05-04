@@ -1,6 +1,6 @@
 <?php
 
-namespace SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord;
+namespace SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord;
 
 
 use SeanJA\StatsCanAPI\Responses\SeriesInfo;

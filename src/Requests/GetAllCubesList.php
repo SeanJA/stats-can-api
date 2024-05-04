@@ -4,7 +4,7 @@ namespace SeanJA\StatsCanAPI\Requests;
 
 use GuzzleHttp\Psr7\Request;
 
-class GetAllCubesList implements RequestInterface
+class GetAllCubesList implements StatsCanAPIRequestInterface
 {
     public function __invoke(): Request
     {

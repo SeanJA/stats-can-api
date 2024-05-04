@@ -12,7 +12,7 @@ class ChangedCubeList extends AbstractCollection implements ResponseInterface
         return ChangedCube::class;
     }
 
-    public static function fromResponse(array $response): self
+    public static function fromResponse(array $response): static
     {
         return new static(
             array_map(

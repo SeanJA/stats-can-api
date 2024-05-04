@@ -4,7 +4,7 @@ namespace SeanJA\StatsCanAPI\Requests;
 
 use GuzzleHttp\Psr7\Request;
 
-class GetSeriesInfoFromCubePidCoord implements RequestInterface
+class GetSeriesInfoFromCubePidCoord implements StatsCanAPIRequestInterface
 {
     public function __construct(
         private readonly int $productId,

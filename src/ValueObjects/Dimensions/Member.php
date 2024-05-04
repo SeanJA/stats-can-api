@@ -2,7 +2,7 @@
 
 namespace SeanJA\StatsCanAPI\ValueObjects\Dimensions;
 
-use SeanJA\StatsCanAPI\Responses\Deserializable;
+use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 
 class Member implements Deserializable
 {
@@ -21,8 +21,8 @@ class Member implements Deserializable
     {
     }
 
-    #[\Override] public static function deserialize(array $data): self
+    #[\Override] public static function deserialize(array $data): static
     {
-        return new self(...$data);
+        return new static(...$data);
     }
 }

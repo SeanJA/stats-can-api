@@ -49,9 +49,7 @@ class Cube
             (array)$data['surveyCode'],
             $data['frequencyCode'],
             $data['corrections'],
-            new Dimensions(array_map(function ($data) {
-                return Dimension::deserialize($data);
-            }, $data['dimensions']))
+            Dimensions::deserialize($data)
         );
     }
 }

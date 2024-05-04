@@ -7,9 +7,10 @@ use SeanJA\StatsCanAPI\Client;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\ChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
-use SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
-use SeanJA\StatsCanAPI\Responses\SeriesInfoFromVector\SeriesInfoFromVector;
+use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 
 class ClientTest extends TestCase
 {
@@ -182,13 +183,12 @@ class ClientTest extends TestCase
         $guzzle = $this->mockGuzzleClient(
             file_get_contents(__DIR__ . '/samples/getChangedSeriesDataFromCubePidCoord.json')
         );
-//        $guzzle = new \GuzzleHttp\Client([RequestOptions::VERIFY => false]);
         $client = new Client($guzzle);
         $result = $client->getChangedSeriesDataFromCubePidCoord(
             35100003,
             "1.12.0.0.0.0.0.0.0.0"
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(ChangedSeriesDataFromCubePidCoord::class, $result);
     }
 
     public function testGetChangedSeriesDataFromVector()

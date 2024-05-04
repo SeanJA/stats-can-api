@@ -2,7 +2,7 @@
 
 namespace SeanJA\StatsCanAPI\Responses;
 
-use SeanJA\StatsCanAPI\Responses\SeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 use SeanJA\StatsCanAPI\ValueObjects\ProductId;
 
 abstract class SeriesInfo implements Deserializable, ResponseInterface

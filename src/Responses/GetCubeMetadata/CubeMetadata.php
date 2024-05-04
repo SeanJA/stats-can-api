@@ -3,7 +3,7 @@
 namespace SeanJA\StatsCanAPI\Responses\GetCubeMetadata;
 
 use DateTimeImmutable;
-use SeanJA\StatsCanAPI\Responses\Deserializable;
+use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 use SeanJA\StatsCanAPI\Responses\ResponseInterface;
 use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Dimension;
 use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Dimensions;
@@ -36,12 +36,12 @@ class CubeMetadata implements ResponseInterface, Deserializable
     {
     }
 
-    #[\Override] public static function fromResponse(array $response): self
+    #[\Override] public static function fromResponse(array $response): static
     {
         return self::deserialize($response[0]['object']);
     }
 
-    #[\Override] public static function deserialize(array $data): self
+    #[\Override] public static function deserialize(array $data): static
     {
         $data['productId'] = new ProductId($data['productId']);
         $data['cubeStartDate'] = new DateTimeImmutable($data['cubeStartDate']);

@@ -2,7 +2,7 @@
 
 namespace SeanJA\StatsCanAPI\ValueObjects\Dimensions;
 
-use SeanJA\StatsCanAPI\Responses\Deserializable;
+use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 
 class Dimension implements Deserializable
 {
@@ -17,7 +17,7 @@ class Dimension implements Deserializable
     {
     }
 
-    public static function deserialize(array $data): self
+    public static function deserialize(array $data): static
     {
         if(isset($data['hasUOM'])){
             $data['hasUom'] = $data['hasUOM'];
@@ -28,7 +28,7 @@ class Dimension implements Deserializable
                 return Member::deserialize($member);
             }, $data['member']);
         }
-        return new self(
+        return new static(
             ...$data
         );
     }

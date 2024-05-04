@@ -5,7 +5,7 @@ namespace SeanJA\StatsCanAPI\Requests;
 use DateTimeInterface;
 use GuzzleHttp\Psr7\Request;
 
-class GetChangedCubeList implements RequestInterface
+class GetChangedCubeList implements StatsCanAPIRequestInterface
 {
     public function __construct(
         private readonly DateTimeInterface $date

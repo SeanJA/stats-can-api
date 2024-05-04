@@ -1,6 +1,6 @@
 <?php
 
-namespace SeanJA\StatsCanAPI\Responses\SeriesInfoFromVector;
+namespace SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector;
 
 use SeanJA\StatsCanAPI\Responses\SeriesInfo;
 
