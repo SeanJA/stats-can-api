@@ -20,10 +20,13 @@ use SeanJA\StatsCanAPI\Requests\GetBulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromVector;
+use SeanJA\StatsCanAPI\Requests\GetCodeSets;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
 use SeanJA\StatsCanAPI\Requests\GetDataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Requests\GetDataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Requests\GetDataFromVectorsAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Requests\GetFullTableDownloadCSV;
+use SeanJA\StatsCanAPI\Requests\GetFullTableDownloadSDMX;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
 use SeanJA\StatsCanAPI\Requests\StatsCanAPIRequestInterface;
@@ -33,10 +36,13 @@ use SeanJA\StatsCanAPI\Responses\GetBulkVectorDataByRange\BulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
+use SeanJA\StatsCanAPI\Responses\GetCodeSets\CodeSets;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorByReferencePeriodRange\DataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadCSV\FullTableDownloadCSV;
+use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadSDMX\FullTableDownloadSDMX;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 
@@ -238,24 +244,35 @@ class Client
         );
     }
 
-    public function getFullTableDownloadCSV(int $productId): array
+    public function getFullTableDownloadCSV(int $productId): FullTableDownloadCSV
     {
-        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/' . $productId . '/en');
+        return FullTableDownloadCSV::fromResponse(
+            $this->send(
+                new GetFullTableDownloadCSV(
+                    $productId
+                )
+            )
+        );
     }
 
-    public function getFullTableDownloadSDMX(int $productId): array
+    public function getFullTableDownloadSDMX(int $productId): FullTableDownloadSDMX
     {
-        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadSDMX/' . $productId);
+        return FullTableDownloadSDMX::fromResponse(
+            $this->send(
+                new GetFullTableDownloadSDMX(
+                    $productId
+                )
+            )
+        );
     }
 
-    public function getCodeSets(): array
+    public function getCodeSets(): CodeSets
     {
-        return $this->get('https://www150.statcan.gc.ca/t1/wds/rest/getCodeSets');
-    }
-
-    private function get($url): array|null
-    {
-        return $this->request('GET', $url);
+        return CodeSets::fromResponse(
+            $this->send(
+                new GetCodeSets()
+            )
+        );
     }
 
     public function send(StatsCanAPIRequestInterface $request): array
@@ -267,33 +284,6 @@ class Client
                 $contents = $result->getBody()->getContents();
                 return json_decode($contents, true);
             } catch (GuzzleRequestException|ClientException $e) {
-                throw new RequestException($e->getMessage(), $e->getCode(), $e);
-            }
-        });
-    }
-
-    private function request(
-        string $method,
-        string $url,
-        array  $data = []
-    ): array|null
-    {
-        return $this->remember(function () use ($method, $url, $data) {
-            try {
-                $options = [];
-                if ($data) {
-                    $options[RequestOptions::JSON] = $data;
-                }
-
-                $result = $this->guzzle->request(
-                    $method,
-                    $url,
-                    $options
-                );
-                $result->getBody()->rewind();
-                $contents = $result->getBody()->getContents();
-                return json_decode($contents, true);
-            } catch (GuzzleRequestException|ClientException|GuzzleException $e) {
                 throw new RequestException($e->getMessage(), $e->getCode(), $e);
             }
         });

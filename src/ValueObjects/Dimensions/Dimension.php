@@ -6,7 +6,6 @@ use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 
 class Dimension implements Deserializable
 {
-
     public function __construct(
         public readonly string     $dimensionNameEn,
         public readonly string     $dimensionNameFr,

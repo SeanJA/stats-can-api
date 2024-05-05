@@ -12,10 +12,13 @@ use SeanJA\StatsCanAPI\Responses\GetBulkVectorDataByRange\BulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesDataFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
+use SeanJA\StatsCanAPI\Responses\GetCodeSets\CodeSets;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
 use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorByReferencePeriodRange\DataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadCSV\FullTableDownloadCSV;
+use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadSDMX\FullTableDownloadSDMX;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 
@@ -60,7 +63,7 @@ class ClientTest extends TestCase
         $result = $client->getFullTableDownloadCSV(
             33100302
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(FullTableDownloadCSV::class, $result);
     }
 
     public function testGetAllCubesList()
@@ -114,16 +117,15 @@ class ClientTest extends TestCase
     public function testGetCodeSets()
     {
         $guzzle = $this->mockGuzzleClient(
-            file_get_contents(__DIR__ . '/samples/getDataFromVectorByReferencePeriodRange.json')
+            file_get_contents(__DIR__ . '/samples/getCodeSets.json')
         );
         $client = new Client($guzzle);
         $result = $client->getCodeSets();
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(CodeSets::class, $result);
     }
 
     public function testGetSeriesInfoFromCubePidCoord()
     {
-        $guzzle = new \GuzzleHttp\Client([RequestOptions::VERIFY => false]);
         $guzzle = $this->mockGuzzleClient(
             file_get_contents(__DIR__ . '/samples/getSeriesInfoFromCubePidCoord.json')
         );
@@ -182,7 +184,7 @@ class ClientTest extends TestCase
         $result = $client->getFullTableDownloadSDMX(
             14100287
         );
-        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf(FullTableDownloadSDMX::class, $result);
     }
 
     public function testGetChangedSeriesDataFromCubePidCoord()
