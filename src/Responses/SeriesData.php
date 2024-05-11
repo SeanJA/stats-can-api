@@ -3,6 +3,7 @@
 namespace SeanJA\StatsCanAPI\Responses;
 
 use SeanJA\StatsCanAPI\Interfaces\Deserializable;
+use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
 use SeanJA\StatsCanAPI\ValueObjects\ProductId;
 use SeanJA\StatsCanAPI\ValueObjects\VectorDataPoints\VectorDataPoints;
 
@@ -11,7 +12,7 @@ abstract class SeriesData implements Deserializable, ResponseInterface
     public function __construct(
         public readonly int $responseStatusCode,
         public readonly ProductId $productId,
-        public readonly string $coordinate,
+        public readonly Coordinate $coordinate,
         public readonly int $vectorId,
         public VectorDataPoints $vectorDataPoints
     ){
@@ -21,6 +22,7 @@ abstract class SeriesData implements Deserializable, ResponseInterface
     #[\Override] public static function deserialize(array $data): static
     {
         $data['productId'] = new ProductId($data['productId']);
+        $data['coordinate'] = Coordinate::deserialize($data['coordinate']);
         $data['vectorDataPoints'] = VectorDataPoints::deserialize($data['vectorDataPoints']);
         return new static(...$data);
     }

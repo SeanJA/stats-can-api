@@ -4,3 +4,4 @@ test.php
 /cache/
 .idea
 .phpunit.cache
+/composer.lock

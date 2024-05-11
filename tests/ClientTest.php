@@ -2,7 +2,6 @@
 
 namespace Tests\SeanJA\StatsCanAPI;
 
-use GuzzleHttp\RequestOptions;
 use SeanJA\StatsCanAPI\Client;
 use SeanJA\StatsCanAPI\Exceptions\NotImplementedException;
 use SeanJA\StatsCanAPI\Exceptions\RequestException;
@@ -10,17 +9,18 @@ use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesListLite\AllCubesListLite;
 use SeanJA\StatsCanAPI\Responses\GetBulkVectorDataByRange\BulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
-use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesDataFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoordinate\SeriesDataFromCubePidCoordinate;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCodeSets\CodeSets;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
-use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordinateAndLatestNPeriods\DataFromCubePidCoordinateAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorByReferencePeriodRange\DataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadCSV\FullTableDownloadCSV;
 use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadSDMX\FullTableDownloadSDMX;
-use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoordinate\SeriesInfoFromCubePidCoordinate;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
+use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
 
 class ClientTest extends TestCase
 {
@@ -132,9 +132,9 @@ class ClientTest extends TestCase
         $client = new Client($guzzle);
         $result = $client->getSeriesInfoFromCubePidCoord(
             35100003,
-            "1.12.0.0.0.0.0.0.0.0"
+            new Coordinate(1,12)
         );
-        $this->assertInstanceOf(SeriesInfoFromCubePidCoord::class, $result);
+        $this->assertInstanceOf(SeriesInfoFromCubePidCoordinate::class, $result);
     }
 
     public function testGetChangedCubeList()
@@ -153,12 +153,12 @@ class ClientTest extends TestCase
             file_get_contents(__DIR__ . '/samples/getDataFromCubePidCoordAndLatestNPeriods.json')
         );
         $client = new Client($guzzle);
-        $result = $client->getDataFromCubePidCoordAndLatestNPeriods(
+        $result = $client->getDataFromCubePidCoordinateAndLatestNPeriods(
             35100003,
-            "1.12.0.0.0.0.0.0.0.0",
+            new Coordinate(1,12),
             3
         );
-        $this->assertInstanceOf(DataFromCubePidCoordAndLatestNPeriods::class, $result);
+        $this->assertInstanceOf(DataFromCubePidCoordinateAndLatestNPeriods::class, $result);
     }
 
     public function testGetBulkVectorDataByRange()
@@ -187,17 +187,17 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(FullTableDownloadSDMX::class, $result);
     }
 
-    public function testGetChangedSeriesDataFromCubePidCoord()
+    public function testGetChangedSeriesDataFromCubePidCoordinate()
     {
         $guzzle = $this->mockGuzzleClient(
             file_get_contents(__DIR__ . '/samples/getChangedSeriesDataFromCubePidCoord.json')
         );
         $client = new Client($guzzle);
-        $result = $client->getChangedSeriesDataFromCubePidCoord(
+        $result = $client->getChangedSeriesDataFromCubePidCoordinate(
             35100003,
-            "1.12.0.0.0.0.0.0.0.0"
+            new Coordinate(1,12)
         );
-        $this->assertInstanceOf(SeriesDataFromCubePidCoord::class, $result);
+        $this->assertInstanceOf(SeriesDataFromCubePidCoordinate::class, $result);
     }
 
     public function testGetChangedSeriesDataFromVector()

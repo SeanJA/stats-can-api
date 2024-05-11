@@ -6,9 +6,7 @@ use DateInterval;
 use DateTimeInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
-use GuzzleHttp\RequestOptions;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use SeanJA\Cache\CacheableTrait;
@@ -18,33 +16,34 @@ use SeanJA\StatsCanAPI\Requests\GetAllCubesList;
 use SeanJA\StatsCanAPI\Requests\GetAllCubesListLite;
 use SeanJA\StatsCanAPI\Requests\GetBulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Requests\GetChangedCubeList;
-use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoord;
+use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromCubePidCoordinate;
 use SeanJA\StatsCanAPI\Requests\GetChangedSeriesDataFromVector;
 use SeanJA\StatsCanAPI\Requests\GetCodeSets;
 use SeanJA\StatsCanAPI\Requests\GetCubeMetadata;
-use SeanJA\StatsCanAPI\Requests\GetDataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Requests\GetDataFromCubePidCoordinateAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Requests\GetDataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Requests\GetDataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Requests\GetFullTableDownloadCSV;
 use SeanJA\StatsCanAPI\Requests\GetFullTableDownloadSDMX;
-use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromCubePidCoordinate;
 use SeanJA\StatsCanAPI\Requests\GetSeriesInfoFromVector;
 use SeanJA\StatsCanAPI\Requests\StatsCanAPIRequestInterface;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesList\AllCubesList;
 use SeanJA\StatsCanAPI\Responses\GetAllCubesListLite\AllCubesListLite;
 use SeanJA\StatsCanAPI\Responses\GetBulkVectorDataByRange\BulkVectorDataByRange;
 use SeanJA\StatsCanAPI\Responses\GetChangedCubeList\ChangedCubeList;
-use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoord\SeriesDataFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromCubePidCoordinate\SeriesDataFromCubePidCoordinate;
 use SeanJA\StatsCanAPI\Responses\GetChangedSeriesDataFromVector\SeriesDataFromVector;
 use SeanJA\StatsCanAPI\Responses\GetCodeSets\CodeSets;
 use SeanJA\StatsCanAPI\Responses\GetCubeMetadata\CubeMetadata;
-use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordAndLatestNPeriods\DataFromCubePidCoordAndLatestNPeriods;
+use SeanJA\StatsCanAPI\Responses\GetDataFromCubePidCoordinateAndLatestNPeriods\DataFromCubePidCoordinateAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorByReferencePeriodRange\DataFromVectorByReferencePeriodRange;
 use SeanJA\StatsCanAPI\Responses\GetDataFromVectorsAndLatestNPeriods\DataFromVectorsAndLatestNPeriods;
 use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadCSV\FullTableDownloadCSV;
 use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadSDMX\FullTableDownloadSDMX;
-use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoord\SeriesInfoFromCubePidCoord;
+use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoordinate\SeriesInfoFromCubePidCoordinate;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
+use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
 
 class Client
 {
@@ -113,12 +112,12 @@ class Client
 
     public function getSeriesInfoFromCubePidCoord(
         int    $productId,
-        string $coordinate
-    ): SeriesInfoFromCubePidCoord
+        Coordinate $coordinate
+    ): SeriesInfoFromCubePidCoordinate
     {
-        return SeriesInfoFromCubePidCoord::fromResponse(
+        return SeriesInfoFromCubePidCoordinate::fromResponse(
             $this->send(
-                new GetSeriesInfoFromCubePidCoord(
+                new GetSeriesInfoFromCubePidCoordinate(
                     $productId,
                     $coordinate
                 )
@@ -155,14 +154,14 @@ class Client
         );
     }
 
-    public function getChangedSeriesDataFromCubePidCoord(
+    public function getChangedSeriesDataFromCubePidCoordinate(
         int    $productId,
-        string $coordinate
-    ): SeriesDataFromCubePidCoord
+        Coordinate $coordinate
+    ): SeriesDataFromCubePidCoordinate
     {
-        return SeriesDataFromCubePidCoord::fromResponse(
+        return SeriesDataFromCubePidCoordinate::fromResponse(
             $this->send(
-                new GetChangedSeriesDataFromCubePidCoord(
+                new GetChangedSeriesDataFromCubePidCoordinate(
                     $productId,
                     $coordinate
                 )
@@ -183,14 +182,14 @@ class Client
         );
     }
 
-    public function getDataFromCubePidCoordAndLatestNPeriods(
+    public function getDataFromCubePidCoordinateAndLatestNPeriods(
         int    $productId,
-        string $coordinate,
-        int    $latestN): DataFromCubePidCoordAndLatestNPeriods
+        Coordinate $coordinate,
+        int    $latestN): DataFromCubePidCoordinateAndLatestNPeriods
     {
-        return DataFromCubePidCoordAndLatestNPeriods::fromResponse(
+        return DataFromCubePidCoordinateAndLatestNPeriods::fromResponse(
             $this->send(
-                new GetDataFromCubePidCoordAndLatestNPeriods(
+                new GetDataFromCubePidCoordinateAndLatestNPeriods(
                     $productId,
                     $coordinate,
                     $latestN

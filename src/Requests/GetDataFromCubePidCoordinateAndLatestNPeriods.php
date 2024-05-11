@@ -3,12 +3,14 @@
 namespace SeanJA\StatsCanAPI\Requests;
 
 use GuzzleHttp\Psr7\Request;
+use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
 
-class GetSeriesInfoFromCubePidCoord implements StatsCanAPIRequestInterface
+class GetDataFromCubePidCoordinateAndLatestNPeriods implements StatsCanAPIRequestInterface
 {
     public function __construct(
         private readonly int $productId,
-        private readonly string $coordinate
+        private readonly Coordinate $coordinate,
+        private readonly int $latestN
     ){
 
     }
@@ -17,13 +19,14 @@ class GetSeriesInfoFromCubePidCoord implements StatsCanAPIRequestInterface
     {
         return new Request(
             method: 'POST',
-            uri: 'https://www150.statcan.gc.ca/t1/wds/rest/getSeriesInfoFromCubePidCoord',
+            uri: 'https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods',
             headers: [
                 'Content-Type' => 'application/json'
             ],
             body: json_encode([[
                 'productId' => $this->productId,
-                'coordinate' => $this->coordinate
+                'coordinate' => $this->coordinate,
+                'latestN' => $this->latestN
             ]]),
         );
     }

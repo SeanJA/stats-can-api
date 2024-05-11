@@ -5,6 +5,7 @@ namespace SeanJA\StatsCanAPI\Responses\GetCubeMetadata;
 use DateTimeImmutable;
 use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 use SeanJA\StatsCanAPI\Responses\ResponseInterface;
+use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
 use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Dimension;
 use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Dimensions;
 use SeanJA\StatsCanAPI\ValueObjects\ProductId;
@@ -14,7 +15,7 @@ class CubeMetadata implements ResponseInterface, Deserializable
     public function __construct(
         public readonly int               $responseStatusCode,
         public readonly ProductId         $productId,
-        public readonly int|null          $cansimId,
+        public readonly string|int|null   $cansimId,
         public readonly string            $cubeTitleEn,
         public readonly string            $cubeTitleFr,
         public readonly DateTimeImmutable $cubeStartDate,
@@ -54,5 +55,12 @@ class CubeMetadata implements ResponseInterface, Deserializable
         );
 
         return new static(...$data);
+    }
+
+    public function getCoordinate()
+    {
+        $this->dimension[0];
+
+        return new Coordinate();
     }
 }
