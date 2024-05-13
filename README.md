@@ -5,6 +5,15 @@ Example of usage to retrieve the latest average price of gas for all of Canada:
 
 ```php
 
+use SeanJA\StatsCanAPI\ValueObjects\Enums\ProductIdEnum;
+use SeanJA\StatsCanAPI\ValueObjects\Enums\GeographyEnum;
+use SeanJA\StatsCanAPI\Client;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\RequestOptions;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
+use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Member;
+
 $client = new Client(
     guzzle: new GuzzleClient([
         RequestOptions::VERIFY => false
@@ -13,6 +22,19 @@ $client = new Client(
 );
 
 $productId = ProductIdEnum::MONTHLY_AVERAGE_RETAIL_PRICES_FOR_GASOLINE_AND_FUEL_OIL_BY_GEOGRAPHY;
+$geography = GeographyEnum::CANADA;
+
+$areaMember = null;
+
+// get the area that was specified
+// assumes the data comes back in the same order
+/** @var Member $member */
+foreach($data->dimension[0]->member as $member){
+    if($member->memberId === $geography->value){
+        $areaMember = $member->memberId;
+        break;
+    }
+}
 
 $coordinate = new Coordinate();
 $coordinate->setDimension(1, $areaMember);
