@@ -130,7 +130,7 @@ class ClientTest extends TestCase
             file_get_contents(__DIR__ . '/samples/getSeriesInfoFromCubePidCoord.json')
         );
         $client = new Client($guzzle);
-        $result = $client->getSeriesInfoFromCubePidCoord(
+        $result = $client->getSeriesInfoFromCubePidCoordinate(
             35100003,
             new Coordinate(1,12)
         );

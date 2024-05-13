@@ -12,16 +12,16 @@ use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 class Coordinate implements \JsonSerializable, Deserializable
 {
     public function __construct(
-        readonly private int $dimension1 = 0,
-        readonly private int $dimension2 = 0,
-        readonly private int $dimension3 = 0,
-        readonly private int $dimension4 = 0,
-        readonly private int $dimension5 = 0,
-        readonly private int $dimension6 = 0,
-        readonly private int $dimension7 = 0,
-        readonly private int $dimension8 = 0,
-        readonly private int $dimension9 = 0,
-        readonly private int $dimension10 = 0
+        private int $dimension1 = 0,
+        private int $dimension2 = 0,
+        private int $dimension3 = 0,
+        private int $dimension4 = 0,
+        private int $dimension5 = 0,
+        private int $dimension6 = 0,
+        private int $dimension7 = 0,
+        private int $dimension8 = 0,
+        private int $dimension9 = 0,
+        private int $dimension10 = 0
     )
     {
     }
@@ -48,7 +48,6 @@ class Coordinate implements \JsonSerializable, Deserializable
         return $this->getValue();
     }
 
-
     public static function deserialize(mixed $data): static
     {
         $data = explode('.', $data);
@@ -56,5 +55,11 @@ class Coordinate implements \JsonSerializable, Deserializable
             return (int) $data;
         }, $data);
         return new static(...$data);
+    }
+
+    public function setDimension(int $dimensionPosition, int $memberId): void
+    {
+        $position = 'dimension'. $dimensionPosition;
+        $this->$position = $memberId;
     }
 }

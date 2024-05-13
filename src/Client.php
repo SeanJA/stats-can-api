@@ -6,6 +6,7 @@ use DateInterval;
 use DateTimeInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
@@ -110,7 +111,7 @@ class Client
         );
     }
 
-    public function getSeriesInfoFromCubePidCoord(
+    public function getSeriesInfoFromCubePidCoordinate(
         int    $productId,
         Coordinate $coordinate
     ): SeriesInfoFromCubePidCoordinate
@@ -274,6 +275,11 @@ class Client
         );
     }
 
+    /**
+     * @param StatsCanAPIRequestInterface $request
+     * @return array
+     * @throws RequestException
+     */
     public function send(StatsCanAPIRequestInterface $request): array
     {
         return $this->remember(function () use ($request) {
@@ -282,7 +288,7 @@ class Client
                 $result->getBody()->rewind();
                 $contents = $result->getBody()->getContents();
                 return json_decode($contents, true);
-            } catch (GuzzleRequestException|ClientException $e) {
+            } catch (GuzzleRequestException|ClientException|GuzzleException $e) {
                 throw new RequestException($e->getMessage(), $e->getCode(), $e);
             }
         });

@@ -56,11 +56,4 @@ class CubeMetadata implements ResponseInterface, Deserializable
 
         return new static(...$data);
     }
-
-    public function getCoordinate()
-    {
-        $this->dimension[0];
-
-        return new Coordinate();
-    }
 }

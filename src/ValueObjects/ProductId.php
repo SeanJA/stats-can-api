@@ -2,10 +2,12 @@
 
 namespace SeanJA\StatsCanAPI\ValueObjects;
 
+use JsonSerializable;
+
 /**
  * Representative / default view product ID for a table:
  */
-class ProductId
+class ProductId implements JsonSerializable
 {
     public readonly string $subject;
     public readonly string $productType;
@@ -30,5 +32,23 @@ class ProductId
         } else {
             $this->tableOrCube = null;
         }
+    }
+
+    #[\Override] public function jsonSerialize(): mixed
+    {
+        return (int)(string)$this;
+    }
+
+    public function __toString(): string
+    {
+        return implode(
+            '',
+            [
+                $this->subject,
+                $this->productType,
+                $this->sequentialNumbers,
+                $this->tableOrCube
+            ]
+        );
     }
 }
