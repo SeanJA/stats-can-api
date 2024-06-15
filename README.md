@@ -16,6 +16,7 @@ use SeanJA\StatsCanAPI\ValueObjects\Dimensions\Member;
 
 $client = new Client(
     guzzle: new GuzzleClient([
+        //this might be a windows issue, unclear
         RequestOptions::VERIFY => false
     ]),
     cache: new FilesystemAdapter('', 0, __DIR__ . '/cache')
