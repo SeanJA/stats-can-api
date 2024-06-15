@@ -4,7 +4,7 @@ tasks:
   test:
     desc: run the tests
     cmds:
-      - cmd: php ./vendor/bin/phpunit --stop-on-error
+      - cmd: docker compose -f docker-compose-test.yml up --exit-code-from phpunit
   build:base-enums:
     desc: build the base enums from getCodeSets
     cmds:
