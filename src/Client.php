@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use SeanJA\Cache\CacheableTrait;
 use SeanJA\StatsCanAPI\Exceptions\NotImplementedException;
@@ -279,6 +280,7 @@ class Client
      * @param StatsCanAPIRequestInterface $request
      * @return array
      * @throws RequestException
+     * @throws InvalidArgumentException
      */
     public function send(StatsCanAPIRequestInterface $request): array
     {

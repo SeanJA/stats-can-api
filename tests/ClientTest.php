@@ -21,6 +21,7 @@ use SeanJA\StatsCanAPI\Responses\GetFullTableDownloadSDMX\FullTableDownloadSDMX;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromCubePidCoordinate\SeriesInfoFromCubePidCoordinate;
 use SeanJA\StatsCanAPI\Responses\GetSeriesInfoFromVector\SeriesInfoFromVector;
 use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class ClientTest extends TestCase
 {
@@ -233,5 +234,18 @@ class ClientTest extends TestCase
         $client->getChangedSeriesList(
             new \DateTimeImmutable('yesterday')
         );
+    }
+
+    public function testWithCache()
+    {
+        $guzzle = $this->mockGuzzleClient(
+            file_get_contents(__DIR__ . '/samples/getAllCubesListLite.json')
+        );
+        $client = new Client(
+            guzzle: $guzzle,
+            cache: new ArrayAdapter()
+        );
+        $result = $client->getAllCubesListLite();
+        $this->assertInstanceOf(AllCubesListLite::class, $result);
     }
 }
