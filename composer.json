@@ -1,6 +1,7 @@
 {
     "name": "seanja/stats-can-api",
     "description": "api client to interact with the stats can api",
+    "license": "LGPL-3.0-or-later",
     "type": "library",
     "autoload": {
         "psr-4": {
