@@ -2,5 +2,14 @@ version: 3
 
 tasks:
   test:
+    desc: run the tests
     cmds:
       - cmd: php ./vendor/bin/phpunit --stop-on-error
+  build:base-enums:
+    desc: build the base enums from getCodeSets
+    cmds:
+      - cmd: php ./scripts/build-base-enums.php
+  build:product-id-enum:
+    desc: build the product id enum from getAllCubesListLite
+    cmds:
+      - cmd: php ./scripts/build-product-id-enum.php
