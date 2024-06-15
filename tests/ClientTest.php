@@ -74,7 +74,7 @@ class ClientTest extends TestCase
         );
         $client = new Client($guzzle);
         $result = $client->getAllCubesList();
-        $this->assertinstanceOf(AllCubesList::class, $result);
+        $this->assertInstanceOf(AllCubesList::class, $result);
     }
 
     public function testGetCubeMetadata()
@@ -145,7 +145,7 @@ class ClientTest extends TestCase
         );
         $client = new Client($guzzle);
         $result = $client->getChangedCubeList(new \DateTimeImmutable('3 days ago'));
-        $this->assertinstanceOf(ChangedCubeList::class, $result);
+        $this->assertInstanceOf(ChangedCubeList::class, $result);
     }
 
     public function testGetDataFromCubePidCoordAndLatestNPeriods()
