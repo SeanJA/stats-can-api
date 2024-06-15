@@ -3,6 +3,7 @@
     "description": "api client to interact with the stats can api",
     "license": "LGPL-3.0-or-later",
     "type": "library",
+    "keywords": ["statscan", "Web Data Service", "stats-can", "stats can", "wds", "wds canada", "canada"],
     "autoload": {
         "psr-4": {
             "SeanJA\\StatsCanAPI\\": "src/"
