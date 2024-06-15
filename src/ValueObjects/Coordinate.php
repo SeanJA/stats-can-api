@@ -51,15 +51,15 @@ class Coordinate implements \JsonSerializable, Deserializable
     public static function deserialize(mixed $data): static
     {
         $data = explode('.', $data);
-        $data = array_map(function($data){
-            return (int) $data;
+        $data = array_map(function ($data) {
+            return (int)$data;
         }, $data);
         return new static(...$data);
     }
 
     public function setDimension(int $dimensionPosition, int $memberId): void
     {
-        $position = 'dimension'. $dimensionPosition;
+        $position = 'dimension' . $dimensionPosition;
         $this->$position = $memberId;
     }
 }

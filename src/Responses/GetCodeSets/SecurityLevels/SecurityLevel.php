@@ -7,13 +7,15 @@ use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 class SecurityLevel implements Deserializable
 {
     public function __construct(
-        public readonly int $securityLevelCode,
+        public readonly int         $securityLevelCode,
         public readonly string|null $securityLevelRepresentationEn,
         public readonly string|null $securityLevelRepresentationFr,
-        public readonly string $securityLevelDescEn,
-        public readonly string $securityLevelDescFr,
+        public readonly string      $securityLevelDescEn,
+        public readonly string      $securityLevelDescFr,
 
-    ){}
+    )
+    {
+    }
 
     #[\Override] public static function deserialize(array $data): static
     {

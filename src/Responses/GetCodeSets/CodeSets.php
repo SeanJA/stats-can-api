@@ -20,16 +20,16 @@ class CodeSets implements ResponseInterface, Deserializable
 {
 
     public function __construct(
-        public readonly Scalars $scalars,
-        public readonly Frequencies $frequencies,
-        public readonly Symbols $symbols,
-        public readonly Statuses $statuses,
-        public readonly UOMS $uoms,
-        public readonly Surveys $surveys,
-        public readonly Subjects $subjects,
+        public readonly Scalars             $scalars,
+        public readonly Frequencies         $frequencies,
+        public readonly Symbols             $symbols,
+        public readonly Statuses            $statuses,
+        public readonly UOMS                $uoms,
+        public readonly Surveys             $surveys,
+        public readonly Subjects            $subjects,
         public readonly ClassificationTypes $classificationTypes,
-        public readonly SecurityLevels $securityLevels,
-        public readonly Terminateds $terminateds,
+        public readonly SecurityLevels      $securityLevels,
+        public readonly Terminateds         $terminateds,
         public readonly WDSResponseStatuses $wdsResponseStatuses
     )
     {

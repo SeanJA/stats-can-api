@@ -7,5 +7,4 @@ use SeanJA\StatsCanAPI\Responses\SeriesInfo;
 
 class SeriesInfoFromCubePidCoordinate extends SeriesInfo
 {
-
 }

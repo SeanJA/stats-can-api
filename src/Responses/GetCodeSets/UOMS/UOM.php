@@ -7,10 +7,12 @@ use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 class UOM implements Deserializable
 {
     public function __construct(
-        public readonly int $memberUomCode,
+        public readonly int         $memberUomCode,
         public readonly string|null $memberUomEn,
         public readonly string|null $memberUomFr
-    ){}
+    )
+    {
+    }
 
     #[\Override] public static function deserialize(array $data): static
     {

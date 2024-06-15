@@ -8,10 +8,11 @@ use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
 class GetDataFromCubePidCoordinateAndLatestNPeriods implements StatsCanAPIRequestInterface
 {
     public function __construct(
-        private readonly int $productId,
+        private readonly int        $productId,
         private readonly Coordinate $coordinate,
-        private readonly int $latestN
-    ){
+        private readonly int        $latestN
+    )
+    {
 
     }
 

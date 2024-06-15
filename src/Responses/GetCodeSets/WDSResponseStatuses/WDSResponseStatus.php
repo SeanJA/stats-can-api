@@ -7,10 +7,12 @@ use SeanJA\StatsCanAPI\Interfaces\Deserializable;
 class WDSResponseStatus implements Deserializable
 {
     public function __construct(
-        public readonly int $codeId,
+        public readonly int    $codeId,
         public readonly string $codeTextEn,
         public readonly string $codeTextFr
-    ){}
+    )
+    {
+    }
 
     #[\Override] public static function deserialize(array $data): static
     {

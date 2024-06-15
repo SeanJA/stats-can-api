@@ -18,7 +18,7 @@ class Dimension implements Deserializable
 
     #[\Override] public static function deserialize(array $data): static
     {
-        if(isset($data['hasUOM'])){
+        if (isset($data['hasUOM'])) {
             $data['hasUom'] = $data['hasUOM'];
             unset($data['hasUOM']);
         }

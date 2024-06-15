@@ -8,7 +8,9 @@ class GetFullTableDownloadCSV implements StatsCanAPIRequestInterface
 {
     public function __construct(
         private readonly int $productId
-    ){}
+    )
+    {
+    }
 
     public function __invoke(): Request
     {

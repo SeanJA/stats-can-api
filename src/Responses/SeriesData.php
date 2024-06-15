@@ -10,12 +10,13 @@ use SeanJA\StatsCanAPI\ValueObjects\VectorDataPoints\VectorDataPoints;
 abstract class SeriesData implements Deserializable, ResponseInterface
 {
     public function __construct(
-        public readonly int $responseStatusCode,
-        public readonly ProductId $productId,
+        public readonly int        $responseStatusCode,
+        public readonly ProductId  $productId,
         public readonly Coordinate $coordinate,
-        public readonly int $vectorId,
-        public VectorDataPoints $vectorDataPoints
-    ){
+        public readonly int        $vectorId,
+        public VectorDataPoints    $vectorDataPoints
+    )
+    {
 
     }
 

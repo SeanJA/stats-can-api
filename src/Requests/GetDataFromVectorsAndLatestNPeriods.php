@@ -9,7 +9,8 @@ class GetDataFromVectorsAndLatestNPeriods implements StatsCanAPIRequestInterface
     public function __construct(
         private readonly int $vectorId,
         private readonly int $latestN
-    ){
+    )
+    {
 
     }
 

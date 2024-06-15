@@ -112,7 +112,7 @@ class Client
     }
 
     public function getSeriesInfoFromCubePidCoordinate(
-        int    $productId,
+        int        $productId,
         Coordinate $coordinate
     ): SeriesInfoFromCubePidCoordinate
     {
@@ -156,7 +156,7 @@ class Client
     }
 
     public function getChangedSeriesDataFromCubePidCoordinate(
-        int    $productId,
+        int        $productId,
         Coordinate $coordinate
     ): SeriesDataFromCubePidCoordinate
     {
@@ -184,9 +184,9 @@ class Client
     }
 
     public function getDataFromCubePidCoordinateAndLatestNPeriods(
-        int    $productId,
+        int        $productId,
         Coordinate $coordinate,
-        int    $latestN): DataFromCubePidCoordinateAndLatestNPeriods
+        int        $latestN): DataFromCubePidCoordinateAndLatestNPeriods
     {
         return DataFromCubePidCoordinateAndLatestNPeriods::fromResponse(
             $this->send(

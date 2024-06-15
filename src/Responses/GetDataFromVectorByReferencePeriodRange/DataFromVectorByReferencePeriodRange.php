@@ -6,5 +6,4 @@ use SeanJA\StatsCanAPI\Responses\SeriesData;
 
 class DataFromVectorByReferencePeriodRange extends SeriesData
 {
-
 }

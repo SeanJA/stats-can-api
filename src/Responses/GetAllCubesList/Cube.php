@@ -49,7 +49,7 @@ class Cube
             (array)$data['surveyCode'],
             $data['frequencyCode'],
             $data['corrections'],
-            isset($data['dimensions'])? Dimensions::deserialize($data['dimensions']) : null
+            isset($data['dimensions']) ? Dimensions::deserialize($data['dimensions']) : null
         );
     }
 }

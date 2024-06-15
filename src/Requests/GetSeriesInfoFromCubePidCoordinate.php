@@ -8,9 +8,10 @@ use SeanJA\StatsCanAPI\ValueObjects\Coordinate;
 class GetSeriesInfoFromCubePidCoordinate implements StatsCanAPIRequestInterface
 {
     public function __construct(
-        private readonly int $productId,
+        private readonly int        $productId,
         private readonly Coordinate $coordinate
-    ){
+    )
+    {
 
     }
 

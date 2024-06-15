@@ -10,7 +10,6 @@ class DownloadableFile implements ResponseInterface, Deserializable
         public readonly string $uri
     )
     {
-
     }
 
     #[\Override] public static function fromResponse(array $response): static

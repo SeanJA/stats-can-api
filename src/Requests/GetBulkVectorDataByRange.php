@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Request;
 class GetBulkVectorDataByRange implements StatsCanAPIRequestInterface
 {
     public function __construct(
-        private readonly array $vectorIds,
+        private readonly array     $vectorIds,
         private \DateTimeInterface $startDataPointReleaseDate,
         private \DateTimeInterface $endDataPointReleaseDate
     )
