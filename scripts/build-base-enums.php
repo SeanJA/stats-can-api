@@ -44,13 +44,13 @@ function writeEnumFile($set, $filename, $desc, $code)
     $data = generateArrayOfData($set, $desc, $code);
     ksort($data);
 
-    $text = '<?php' . PHP_EOL;
+    $text = '<?php' . PHP_EOL . PHP_EOL;
     $text .= 'namespace SeanJA\StatsCanAPI\ValueObjects\Enums;' . PHP_EOL;
-    $text .= 'enum ' . $filename . ':int {' . PHP_EOL;
+    $text .= 'enum ' . $filename . ': int'. PHP_EOL . '{' . PHP_EOL;
     foreach ($data as $key=>$value) {
         $text .= buildCase($key, $value);
     }
-    $text .= ' } ';
+    $text .= '}' . PHP_EOL;
     file_put_contents(__DIR__ . '/../src/ValueObjects/Enums/' . $filename . '.php', $text);
 }
 
