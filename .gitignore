@@ -1,8 +1,8 @@
 composer.phar
 /vendor/
 test.php
-/cache/
 .idea
 .phpunit.cache
 /composer.lock
 /coverage/
+/scripts/cache/

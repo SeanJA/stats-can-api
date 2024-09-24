@@ -20,8 +20,12 @@ enum ClassificationTypeCodeEnum: int
     case CIP2016VARSTEMANDBHASE = 54;
     case CIP2016VCANNABIS = 68;
     case CIP2016VCANNABISPRIMARY = 69;
+    case CIP2021 = 86;
+    case CIP2021VARCANNABISSTEMANDBHASE = 84;
     case CIP2021VARPG = 80;
     case CIP2021VARSTEMANDBHASE = 81;
+    case CIP2021VCANNABIS = 85;
+    case CIP2021VCANNABISPRIMARY = 83;
     case COMMODITY = 3;
     case GENDER2018 = 58;
     case GEOGRAPHY = 1;
@@ -71,6 +75,7 @@ enum ClassificationTypeCodeEnum: int
     case SCCAI2017 = 55;
     case SCCAI2018 = 66;
     case SCCAI2019 = 73;
+    case SCCAI2022 = 87;
     case SCCAIV2018 = 67;
     case SCG = 28;
     case SCTG1996 = 61;
