@@ -13,3 +13,8 @@ tasks:
     desc: build the product id enum from getAllCubesListLite
     cmds:
       - cmd: php ./scripts/build-product-id-enum.php
+  build:
+    desc: build all of the enums
+    cmds:
+      - task: build:product-id-enum
+      - task: build:base-enums
